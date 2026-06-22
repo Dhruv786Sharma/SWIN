@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWIN</title>
+    <style>
+    /* --- Modern Reset & Base Styles --- */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+        line-height: 1.6;
+    }
+
+    /* --- Header & Navigation --- */
+    header {
+        background-color: rgba(26, 26, 26, 0.95);
+        border-bottom: 1px solid #333;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(5px);
+    }
+
+    header > div {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    header h3 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #fff;
+        text-transform: uppercase;
+        margin-right: auto;
+        margin-left: 15px;
+    }
+
+    header a {
+        color: #b0b0b0;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-left: 25px;
+        transition: color 0.3s ease;
+    }
+
+    header a:hover {
+        color: #ff6600; /* Vibrant Orange */
+    }
+
+    header img {
+        height: 40px;
+        width: auto;
+        display: block;
+    }
+
+    /* Cart Icon Placeholder Fix */
+    header a[href="/cart.html"]::before {
+        content: "🛒 Cart";
+        font-weight: bold;
+    }
+
+    /* --- Hero Section --- */
+    main > section:first-of-type div {
+        height: 60vh;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    /* Overlay to make text pop against background image */
+    main > section:first-of-type div::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(rgba(0,0,0,0.2), rgba(26,26,26,1));
+    }
+
+    main > section:first-of-type h1 {
+        position: relative;
+        font-size: 3.5rem;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        text-align: center;
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(to right, transparent, #ff6600, transparent);
+        margin: 40px 0;
+    }
+
+    /* --- Watches Section --- */
+    #watch {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    #watch h2 {
+        width: 100%;
+        text-align: center;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: #fff;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    #watch h2::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background-color: #ff6600;
+        margin: 10px auto 0;
+    }
+
+    /* Watch Card Item */
+    #watch > div {
+        background-color: #242424;
+        border: 1px solid #333;
+        border-radius: 4px;
+        padding: 25px;
+        width: 260px;
+        text-align: center;
+        transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #watch > div:hover {
+        transform: translateY(-5px);
+        border-color: #ff6600;
+        box-shadow: 0 10px 20px rgba(255, 102, 0, 0.1);
+    }
+
+    #watch img {
+        max-width: 100%;
+        object-fit: contain;
+        margin-bottom: 15px;
+        filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.5));
+    }
+
+    /* Br remove tags replacement for clean spacing */
+    #watch br {
+        display: none;
+    }
+
+    /* Labels & Typography */
+    #watch label[for="name"] {
+        display: block;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 8px;
+        min-height: 50px; /* Aligns items nicely */
+    }
+
+    #watch label[for="price"] {
+        display: block;
+        font-size: 1.1rem;
+        color: #ff6600;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Buttons */
+    button {
+        background-color: transparent;
+        color: #fff;
+        border: 2px solid #ff6600;
+        padding: 10px 24px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: auto;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #ff6600;
+        color: #1a1a1a;
+    }
+
+    /* --- About Section --- */
+    #about {
+        background-size: cover;
+        background-position: center;
+        padding: 80px 20px;
+        background-color: #1f1f1f;
+        border-top: 1px solid #333;
+    }
+
+    /* Overriding pre tag behavior so text wraps beautifully on mobile */
+    #about pre {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1.5rem;
+        color: #ea6262;
+        white-space: pre-line; 
+        font-family: inherit;
+        line-height: 1.8;
+        font-weight: bolder;
+
+    }
+
+    #about h2 {
+        width: 100%;
+        text-align: center;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: #fff;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    #about h2::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background-color: #ff6600;
+        margin: 10px auto 0;
+    }
+
+    /* --- Footer --- */
+    footer {
+        background-color: #111;
+        padding: 30px;
+        text-align: center;
+        border-top: 1px solid #222;
+        font-size: 0.85rem;
+        color: #666;
+    }
+    footer::before {
+        content: "© 2026 Swin Timepieces. All Rights Reserved.";
+    }
+
+    .cart-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #ff6600;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: auto;
+    transition: all 0.3s ease;
+}
+
+.cart-btn:hover {
+    background-color: #ff6600;
+    color: #1a1a1a;
+}
+</style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a href="/index.html"><img src="Gemini_Generated_Image_28vc0u28vc0u28vc.png" alt="logo" ></a>
+            <h3>Swin</h3>
+            <a href="#watch">Watches</a>
+            <a href="#about">About</a>
+            <a href="cart.html" >🛒 Cart</a>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div style="background-image: url(Gemini_Generated_Image_ncgd47ncgd47ncgd.png); ">
+                <h1>welcome Swin...</h1>
+            </div>
+        </section>
+        <hr>
+        <section id="watch" style="background-image: url(wbg.png);">
+            <h2>Watches</h2>
+
+            <div>
+
+                <img src="w1.png" alt="watch" height="250">
+                <br>
+                <label for="name">Swin Veer (The Warrior's Timekeeper)</label>
+                <br>
+                <label for="price">200000rs only</label>
+                <br>
+              <button onclick="window.open('cart.html')">Add Cart</button>
+
+            </div>
+
+            <div>
+
+                <img src="w2.png" alt="watch" height="250">
+                <br>
+                <label for="name">Swin Chandra (The Luanr Dail)</label>
+                <br>
+                <label for="price">145000rs only</label>
+                <br>
+               <button onclick="window.open('cart.html')">Add Cart</button>
+
+            </div>
+
+            <div>
+
+                <img src="w3.png" alt="watch" height="250">
+                <br>
+                <label for="name">Swin Dharti (The Earth explorer)</label>
+                <br>
+                <label for="price">125000rs only</label>
+                <br>
+               <button onclick="window.open('cart.html')">Add Cart</button>
+
+
+            </div>
+
+            <div>
+
+                <img src="w4.png" alt="watch" height="250">
+                <br>
+                <label for="name">Swin Saagar (The Ocean Master)</label>
+                <br>
+                <label for="price">185000rs only</label>
+                <br>
+             <button onclick="window.open('cart.html')">Add Cart</button>
+
+
+            </div>
+
+        </section>
+
+        <section id="about" style="background-image: url(abg.png);">
+
+             <h2>About</h2>
+            <pre>At Swin, we are proud to bring a fresh, contemporary perspective to Indian watchmaking. Inspired by the
+                hustle, diversity, and vibrant energy of modern India, our timepieces are crafted for those who value
+                both style and precision. We combine classic engineering with forward-thinking design to create watches
+                that don’t just look good on your wrist—they tell your story. Step up your wrist game with a brand
+                that’s homegrown, distinct, and unapologetically bold.</pre>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>
